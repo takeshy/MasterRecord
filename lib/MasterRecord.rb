@@ -61,18 +61,47 @@ module MasterRecord
       end
     end
 
-    def c.find(identity=nil)
-      return all unless identity
-      identity = identity.to_s
-      if identity.include?("@")
-        id = identity.split("@")[-1]
-      else
-        id = identity
+    def c.find_one(condition=nil)
+      if condition == nil 
+        if @master_records.count == 0
+          return nil
+        else
+          return new(@master_records.first)  
+        end
       end
-      if @master_records[id]
-        new(id)
+      if condition.is_a? Hash
+        filtered = @master_records.detect do |id,rec|
+          break new(id) if coincide?(id,rec,condition)
+        end
       else
-        nil
+        id = condition.to_s
+        if @master_records[id]
+          new(id)
+        else
+          nil
+        end
+      end
+    end
+
+    def c.coincide?(id,rec,condition)
+      condition.each do|k,v| 
+        if k.to_s == "id" 
+          break nil if id != v
+        else
+          break nil if rec[k.to_sym] != v
+        end
+      end != nil
+    end
+
+    def c.find(condition=nil)
+      return all unless condition
+      if condition.is_a? Hash
+        filtered = @master_records.select do |id,rec|
+          coincide?(id,rec,condition)
+        end
+        filtered.map{|k,v| new(k)}
+      else
+        find_one(condition)
       end
     end
   end

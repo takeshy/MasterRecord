@@ -26,13 +26,24 @@ end
 describe "Masterrecord" do
   describe "csv" do
     before do
+      #1,ひろし,10
+      #2,たけし,20
+      #3,まこと,30
+      #4,けん,40
       User.load_data(MasterRecord::CSV.load_file(File.expand_path("../data/user.csv", File.dirname(__FILE__)),true))
     end
     it{ User.find().count.should == 4}
+    it{ User.find("1").name.should == "ひろし"}
     it{ User.find_by_name("ひろし")[0].age.should == 10}
+    it{ User.find(:name => "たけし",:age => 21).should == []}
+    it{ User.find(:name => "たけし",:age => 20).count.should == 1}
+    it{ User.find_one(:name => "たけし",:age => 20).id.should == "2"}
   end
   describe "tsv" do
     before do
+      #1	あめ	30
+      #2	チョコレート	40
+      #3	ガム	50
       Item.load_data(MasterRecord::TSV.load_file(File.expand_path("../data/item.tsv", File.dirname(__FILE__))))
     end
     it{ Item.find().count.should == 3}
@@ -40,6 +51,14 @@ describe "Masterrecord" do
   end
   describe "yml" do
     before do
+      #1:
+      #  name: "Japan"
+      #  population: 120000000
+      #  salutation: "こんにちは"
+      #2:   
+      #  name: "China"
+      #  population: 500000000
+      #  salutation: "您好"
       Country.load_data(
         MasterRecord::YAML.load_file(Country.fields,File.expand_path("../data/country.yml", File.dirname(__FILE__))))
     end

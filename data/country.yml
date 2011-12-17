@@ -1,8 +1,8 @@
 1:
   name: "Japan"
-  population: 120000000
   salutation: "こんにちは"
+  population: 120000000
 2:   
   name: "China"
-  population: 500000000
   salutation: "您好"
+  population: 500000000

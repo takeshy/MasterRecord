@@ -32,7 +32,11 @@
     # MasterRecord::CSV.load_file(file_path,header exists)
     User.load_data(MasterRecord::CSV.load_file(File.expand_path("./data/user.csv", File.dirname(__FILE__)),true))
     User.find().count => 4
+    User.find("1").name => "ひろし"
     User.find_by_name("ひろし")[0].age => 10
+    User.find(:name => "たけし",:age => 21) => []
+    User.find(:name => "たけし",:age => 20).count => 1
+    User.find_one(:name => "たけし",:age => 20).id => "2"
 
     #1	あめ	30
     #2	チョコレート	40
