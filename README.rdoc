@@ -1,6 +1,62 @@
 = MasterRecord
+  Object Mapper for csv or tsv or yaml.
 
-Description goes here.
+=== sample
+    class User 
+      UserFields = {
+        :name => MasterRecord.string,
+        :age => MasterRecord.integer,
+      }
+      include MasterRecord
+    end
+    class Item
+      ItemFields = {
+        :name => MasterRecord.string,
+        :price => MasterRecord.integer,
+      }
+      include MasterRecord
+    end
+    class Country
+      CountryFields = {
+        :name => MasterRecord.string,
+        :population => MasterRecord.integer,
+        :salutation => lambda{|r| "'#{r}!!'" }
+      }
+      include MasterRecord
+    end
+    #ID,名前,年齢
+    #1,ひろし,10
+    #2,たけし,20
+    #3,まこと,30
+    #4,けん,40
+    # MasterRecord::CSV.load_file(file_path,header exists)
+    User.load_data(MasterRecord::CSV.load_file(File.expand_path("./data/user.csv", File.dirname(__FILE__)),true))
+    User.find().count => 4
+    User.find_by_name("ひろし")[0].age => 10
+
+    #1	あめ	30
+    #2	チョコレート	40
+    #3	ガム	50
+    # MasterRecord::TSV.load_file(file_path,header exists)
+    Item.load_data(MasterRecord::TSV.load_file(File.expand_path("./data/item.tsv", File.dirname(__FILE__))))
+    Item.find().count => 3
+    Item.find_by_price(50)[0].name => "ガム"
+
+    #1:
+    #  name: "Japan"
+    #  population: 120000000
+    #  salutation: "こんにちは"
+    #2:   
+    #  name: "China"
+    #  population: 500000000
+    #  salutation: "您好"
+    # MasterRecord::YAML.load_file(field_map,file_path)
+    Country.load_data(
+      MasterRecord::YAML.load_file(Country.fields,File.expand_path("../data/country.yml", File.dirname(__FILE__))))
+    Country.find().count => 2
+    Country.find_one_by_population(500000000).name => "China"
+    Country.find().map(&:salutation) => ["こんにちは!!","您好!!"]}
+
 
 == Contributing to MasterRecord
  
