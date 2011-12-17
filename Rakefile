@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/takeshy/MasterRecord"
   gem.license = "MIT"
   gem.summary = %Q{Object Mapper for csv or tsv or yaml.}
-  gem.description = %Q{Object Mapper for csv or tsv or yaml etc.. you can use find,find_one_by|field|,find_by_|field|}}
+  gem.description = %Q{Object Mapper for csv or tsv or yaml etc.. you can use find,find_one_by|field|,find_by_|field|}
   gem.email = "laten@nifty.com"
   gem.authors = ["Takeshi Morita"]
   # dependencies defined in Gemfile
