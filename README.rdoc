@@ -21,6 +21,7 @@
         :name => MasterRecord.string,
         :population => MasterRecord.integer,
         :salutation => lambda{|r| "'#{r}!!'" }
+        :now => lambda{|r|"lambda{ Time.now.localtime('" + r + "')}"},
       }
       include MasterRecord
     end
@@ -60,6 +61,8 @@
     Country.find().count => 2
     Country.find_one_by_population(500000000).name => "China"
     Country.find().map(&:salutation) => ["こんにちは!!","您好!!"]}
+    Country.find("1").now.call.to_s => "2011-12-18 01:01:00 +0900"
+    Country.find("2").now.call.to_s => "2011-12-18 00:01:00 +0800"
 
 
 == Contributing to MasterRecord

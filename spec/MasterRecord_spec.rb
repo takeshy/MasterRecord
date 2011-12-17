@@ -20,12 +20,14 @@ class Country
     :name => MasterRecord.string,
     :population => MasterRecord.integer,
     :salutation => lambda{|r| "'#{r}!!'" }
+    :now => lambda{|r|"lambda{ Time.now.localtime('" + r + "')}"},
   }
   include MasterRecord
 end
 describe "Masterrecord" do
   describe "csv" do
     before do
+      #id,name,age
       #1,ひろし,10
       #2,たけし,20
       #3,まこと,30
@@ -55,15 +57,21 @@ describe "Masterrecord" do
       #  name: "Japan"
       #  population: 120000000
       #  salutation: "こんにちは"
+      #  now: "+09:00"
       #2:   
       #  name: "China"
       #  population: 500000000
       #  salutation: "您好"
+      #  now: "+08:00"
       Country.load_data(
         MasterRecord::YAML.load_file(Country.fields,File.expand_path("../data/country.yml", File.dirname(__FILE__))))
+      @now = Time.new(2011,12,18,1,1,0)
+      Time.stub!(:now).and_return(@now)
     end
     it{ Country.find().count.should == 2}
     it{ Country.find_one_by_population(500000000).name.should == "China"}
     it{ Country.find().map(&:salutation).should == ["こんにちは!!","您好!!"]}
+    it{ Country.find("1").now.call.to_s.should == "2011-12-18 01:01:00 +0900"}
+    it{ Country.find("2").now.call.to_s.should == "2011-12-18 00:01:00 +0800"}
   end
 end

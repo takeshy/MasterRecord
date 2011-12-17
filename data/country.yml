@@ -2,7 +2,9 @@
   name: "Japan"
   salutation: "こんにちは"
   population: 120000000
+  now: "+09:00"
 2:   
   name: "China"
   salutation: "您好"
   population: 500000000
+  now: "+08:00"
