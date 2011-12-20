@@ -5,20 +5,22 @@
 
 Gem::Specification.new do |s|
   s.name = "MasterRecord"
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Takeshi Morita"]
-  s.date = "2011-12-17"
+  s.date = "2011-12-20"
   s.description = "Object Mapper for csv or tsv or yaml etc.. you can use find,find_one_by|field|,find_by_|field|"
   s.email = "laten@nifty.com"
   s.extra_rdoc_files = [
+    "ChangeLog",
     "LICENSE.txt",
     "README.rdoc"
   ]
   s.files = [
     ".document",
     ".rspec",
+    "ChangeLog",
     "Gemfile",
     "LICENSE.txt",
     "MasterRecord.gemspec",
