@@ -1,3 +1,7 @@
 0.3.1
 * add attributes method (ex Item.find_one_by_price(40).attributes => {:id => "2",:identity => "Item@2",:name => "チョコレート",:price => 40})
 * add []access (ex Item.find_one_by_price(50)[:id] => "3")
+
+0.3.2
+* modify bug when use find_one with no condition
+* no raise error when find ,find_one with no record define.

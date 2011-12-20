@@ -40,6 +40,7 @@ describe "Masterrecord" do
     it{ User.find(:name => "たけし",:age => 21).should == []}
     it{ User.find(:name => "たけし",:age => 20).count.should == 1}
     it{ User.find_one(:name => "たけし",:age => 20).id.should == "2"}
+    it{ User.find_one().id.should == "1"}
   end
   describe "tsv" do
     before do

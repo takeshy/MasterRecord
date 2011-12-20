@@ -33,6 +33,8 @@ module MasterRecord
       klass = Object.const_get("#{c}Data")
       master_records = klass.const_get("#{c}Records")
       c.instance_variable_set("@master_records",master_records)
+    else
+      c.instance_variable_set("@master_records",{})
     end
 
     fields.keys.each do |f|
@@ -74,7 +76,7 @@ module MasterRecord
         if @master_records.count == 0
           return nil
         else
-          return new(@master_records.first)  
+          return new(@master_records.keys.first)  
         end
       end
       if condition.is_a? Hash
