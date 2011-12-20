@@ -46,6 +46,8 @@
     Item.load_data(MasterRecord::TSV.load_file(File.expand_path("./data/item.tsv", File.dirname(__FILE__))))
     Item.find().count => 3
     Item.find_by_price(50)[0].name => "ガム"
+    Item.find_one_by_price(50)[:id] => "3"
+    Item.find_one_by_price(40).attributes => {:id => "2",:identity => "Item@2",:name => "チョコレート",:price => 40}
 
     #1:
     #  name: "Japan"

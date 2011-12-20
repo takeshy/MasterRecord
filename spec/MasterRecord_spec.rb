@@ -19,7 +19,7 @@ class Country
   CountryFields = {
     :name => MasterRecord.string,
     :population => MasterRecord.integer,
-    :salutation => lambda{|r| "'#{r}!!'" }
+    :salutation => lambda{|r| "'#{r}!!'" },
     :now => lambda{|r|"lambda{ Time.now.localtime('" + r + "')}"},
   }
   include MasterRecord
@@ -49,7 +49,9 @@ describe "Masterrecord" do
       Item.load_data(MasterRecord::TSV.load_file(File.expand_path("../data/item.tsv", File.dirname(__FILE__))))
     end
     it{ Item.find().count.should == 3}
-    it{ Item.find_by_price(50)[0].name.should == "ガム"}
+    it{ Item.find_by_price(50)[0]["name"].should == "ガム"}
+    it{ Item.find_one_by_price(50)[:id].should == "3"}
+    it{ Item.find_one_by_price(40).attributes.should == {:id => "2",:identity => "Item@2",:name => "チョコレート",:price => 40}}
   end
   describe "yml" do
     before do
@@ -69,7 +71,6 @@ describe "Masterrecord" do
       Time.stub!(:now).and_return(@now)
     end
     it{ Country.find().count.should == 2}
-    it{ Country.find_one_by_population(500000000).name.should == "China"}
     it{ Country.find().map(&:salutation).should == ["こんにちは!!","您好!!"]}
     it{ Country.find("1").now.call.to_s.should == "2011-12-18 01:01:00 +0900"}
     it{ Country.find("2").now.call.to_s.should == "2011-12-18 00:01:00 +0800"}

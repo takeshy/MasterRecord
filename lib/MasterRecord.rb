@@ -53,6 +53,14 @@ module MasterRecord
       @info = rec[@id]
     end
 
+    def attributes
+      @info.merge({:id => @id,:identity => @identity})
+    end
+
+    def [](field)
+      attributes[field.to_sym]
+    end
+
     attr_reader :identity, :id
 
     def c.all
